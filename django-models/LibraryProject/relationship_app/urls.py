@@ -1,5 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
+from .views import add_book, edit_book, delete_book
 
 from Introduction_to_Django.LibraryProject.bookshelf import admin
 from .views import list_books
@@ -21,4 +22,9 @@ urlpatterns = [
     path('admin-view/', views.admin_view, name='admin_view'),
     path('librarian-view/', views.librarian_view, name='librarian_view'),
     path('member-view/', views.member_view, name='member_view'),
+    
+    path('book/add/', add_book, name='add_book'),
+    path('book/<int:pk>/edit/', edit_book, name='edit_book'),
+    path('book/<int:pk>/delete/', delete_book, name='delete_book'),
+
 ]
