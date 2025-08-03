@@ -42,6 +42,6 @@ def post_delete(request, pk):
     post.delete()
     return redirect('post_list')
 
-#def example_view(request):
- #   form = ExampleForm()
-  #  return render(request, 'bookshelf/form_example.html', {'form': form})
+def example_view(request):
+    form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
