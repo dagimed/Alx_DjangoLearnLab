@@ -2,7 +2,27 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Post
 from .forms import PostForm, ExampleForm
+from django.db.models import Q
+from .forms import PostForm
 
+@permission_required('bookshelf.can_create', raise_exception=True)
+def post_create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = PostForm()
+    return render(request, 'bookshelf/form.html', {'form': form})
+
+def search_view(request):
+    query = request.GET.get('q')
+    if query:
+        results = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+    else:
+        results = Post.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': results})
 @permission_required('bookshelf.can_view', raise_exception=True)
 def post_list(request):
     posts = Post.objects.all()
@@ -12,17 +32,6 @@ def post_list(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'bookshelf/post_detail.html', {'post': post})
-
-@permission_required('bookshelf.can_create', raise_exception=True)
-def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('post_list')
-    else:
-        form = PostForm()
-    return render(request, 'bookshelf/post_form.html', {'form': form})
 
 @permission_required('bookshelf.can_edit', raise_exception=True)
 def post_edit(request, pk):
