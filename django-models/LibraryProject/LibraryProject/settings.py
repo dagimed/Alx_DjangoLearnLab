@@ -23,23 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2_av3ryq6=pa8n_mm*vrx68+eyqkt32=e1*#-3zlp2iylqq(k^'
 
 DEBUG = False
-# --- Security Settings ---
-
-# Prevents browser from rendering page if XSS is detected
+# Security-related settings
 SECURE_BROWSER_XSS_FILTER = True
-
-# Prevents site from being loaded in an iframe (clickjacking protection)
 X_FRAME_OPTIONS = 'DENY'
-
-# Prevents browser from trying to guess content type
 SECURE_CONTENT_TYPE_NOSNIFF = True
-
-# Forces CSRF cookie to be sent over HTTPS only
 CSRF_COOKIE_SECURE = True
-
-# Forces session cookie to be sent over HTTPS only
 SESSION_COOKIE_SECURE = True
-
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'",)
